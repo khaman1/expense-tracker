@@ -1,0 +1,58 @@
+<div class="py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Analytics</h1>
+      <p class="mt-2 text-sm text-gray-600">
+        View insights about your expenses
+      </p>
+    </div>
+
+    <div class="mt-8 flex justify-end space-x-4">
+      <button
+        *ngFor="let range of timeRanges"
+        (click)="setTimeRange(range)"
+        [class.bg-indigo-600]="selectedRange === range"
+        [class.text-white]="selectedRange === range"
+        [class.bg-white]="selectedRange !== range"
+        [class.text-gray-700]="selectedRange !== range"
+        class="px-4 py-2 rounded-md text-sm font-medium shadow-sm border border-gray-300 hover:bg-indigo-500 hover:text-white transition-colors duration-200"
+      >
+        {{ range }}
+      </button>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-6">
+      <div
+        class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 p-6"
+      >
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">
+          Expenses by Category
+        </h2>
+        <div
+          echarts
+          [options]="pieChartOption"
+          [initOpts]="chartInitOpts"
+          class="w-full"
+          style="height: 400px"
+        ></div>
+
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div
+            *ngFor="let item of categoryTotals"
+            [class]="getCategoryColorClass(item.category)"
+            class="flex items-center space-x-3 p-3 rounded-lg"
+          >
+            <div class="flex-1">
+              <div class="text-sm font-medium capitalize">
+                {{ item.category }}
+              </div>
+              <div class="text-sm text-gray-600">
+                ${{ item.total.toFixed(2) }} ({{ item.percentage.toFixed(1) }}%)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
